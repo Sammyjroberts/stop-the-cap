@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container py-4">
+    <header class="pb-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+            🧢
+            <span class="fs-4">STOPTHECAP.COM</span>
+        </a>
+    </header>
+
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Click Here to stop the CAP</h1>
+            <p class="col-md-8 fs-4">Use the below button to determine whether the factoid said with the discord boys is cap or not.</p>
+            <button class="btn btn-primary btn-lg" type="button" id = 'cap-detector'>Cap Detector</button>
+            <div id="output" class="mt-3">
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="pt-3 mt-4 text-muted border-top">
+        &copy; 2021
+    </footer>
+</div>
+<script>
+    $(document).ready(function() {
+      var capElement = document.createElement('audio');
+      var noCapElement = document.createElement('audio');
+      var capBtn = $('#cap-detector');
+      capElement.setAttribute('src', './audio/stop_the_cap.mp3');
+      noCapElement.setAttribute('src', './audio/no_cap.mp3');
+
+      // im fucking lazy
+      var applicationState = {
+        currentlyPlaying: false
+      }
+
+
+      capBtn.click(function () {
+        if(!applicationState.currentlyPlaying) {
+          var capin = Boolean(Math.round(Math.random()))
+          if (capin) {
+            capElement.play()
+            $('#output').html(`
+            <div class="alert alert-danger" role="alert">
+                CAP ALERT
+            </div>
+            `)
+          }
+          else {
+            noCapElement.play()
+            $('#output').html(`
+            <div class="alert alert-success">
+            NO CAP SPOTTED
+            </div>
+            `)
+          }
+          applicationState.currentlyPlaying = true
+        }
+      });
+
+      [capElement, noCapElement].map(e => {
+        e.addEventListener('ended', function() {
+          applicationState.currentlyPlaying = false;
+        }, false);
+      })
+    })
+</script>
+</body>
+</html>
